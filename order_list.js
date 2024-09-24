@@ -30,6 +30,15 @@ $(document).ready(function(){
         id: "href-go-balik-stitky-pavel"
     }).insertBefore(element);
 
+      var theinput = $('<input>',{
+        type: 'text',
+        name: 'session-id',
+        id: 'session-id',
+        class: 'form-control',
+        style: 'width:250px;display: inline;',
+
+    }).insertBefore(element);
+
     $('#href-go-balik-stitky-pavel').click(function(e) {
         var ids = "";
         var checkedItems = $('input[name^="bulkOperations"]:checked');
@@ -76,7 +85,9 @@ $(document).ready(function(){
             alert("Není vybraná žádná objednávka.");
         } else {
             e.preventDefault();
-            var url = "https://short-martynne-pavel-1fc5cfc6.koyeb.app/convert_pdf?id_orders=" + ids + "&start_position=" + $("#go-balik-pozice-tisk").val();
+          var sessionId = $("#session-id").val()
+          var url = "https://short-martynne-pavel-1fc5cfc6.koyeb.app/convert_pdf?id_orders=" + ids + "&start_position=" + $("#go-balik-pozice-tisk").val() + (sessionId ? ("&session=" + sessionId) : "");
+
             window.open(url, '_blank');
         }
     });
