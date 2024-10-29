@@ -9,20 +9,18 @@
 // ==/UserScript==
 
 /* global $ */
-$(document).ready(function(){
+$(document).ready(function() {
     var element = "";
 
     if ($("#snippet--exports").length) {
-      element = "#snippet--exports";
+        element = "#snippet--exports";
+    } else if ($("#snippet-exportSection-exports").length) {
+        element = "#snippet-exportSection-exports";
     } else {
-        if ($("#snippet-exportSection-exports").length) {
-          element = "#snippet-exportSection-exports";
-        } else {
-            element = "#snippet-ordersGrid-rows";
-        }
+        element = "#snippet-ordersGrid-rows";
     }
 
-    var thelinkPavel = $('<a>',{
+    var thelinkPavel = $('<a>', {
         text: 'Pavel štítky',
         title: 'go balik',
         href: '#',
@@ -30,14 +28,18 @@ $(document).ready(function(){
         id: "href-go-balik-stitky-pavel"
     }).insertBefore(element);
 
-      var theinput = $('<input>',{
+    var theinput = $('<input>', {
         type: 'text',
         name: 'session-id',
         id: 'session-id',
         class: 'form-control',
-        style: 'width:250px;display: inline;',
-
+        style: 'width:250px;display: inline;'
     }).insertBefore(element);
+
+    // Načíst hodnotu z localStorage, pokud existuje a input je prázdný
+    if (!$("#session-id").val() && localStorage.getItem("session-id")) {
+        $("#session-id").val(localStorage.getItem("session-id"));
+    }
 
     $('#href-go-balik-stitky-pavel').click(function(e) {
         var ids = "";
@@ -59,7 +61,6 @@ $(document).ready(function(){
                 ref_cislo = ref_cislo.html();
             }
 
-            // Zajistíme, aby se přidaly pouze platné hodnoty, které nejsou null nebo prázdné
             if (ref_cislo && ref_cislo.trim() !== "") {
                 if (ids != "") ids += ",";
                 ids += ref_cislo;
@@ -72,7 +73,6 @@ $(document).ready(function(){
                 ref_cislo.find('span').remove();
                 ref_cislo = ref_cislo.html();
 
-                // Přidáváme pouze platné hodnoty
                 if (ref_cislo && ref_cislo.trim() !== "") {
                     if (ids != "") ids += ",";
                     ids += ref_cislo;
@@ -80,13 +80,20 @@ $(document).ready(function(){
             });
         }
 
-        // Pokud stále není žádné ID (např. pokud jsou checkboxy prázdné), upozorníme uživatele
         if (ids == "") {
             alert("Není vybraná žádná objednávka.");
         } else {
             e.preventDefault();
-          var sessionId = $("#session-id").val()
-          var url = "https://short-martynne-pavel-1fc5cfc6.koyeb.app/convert_pdf?id_orders=" + ids + "&start_position=" + $("#go-balik-pozice-tisk").val() + (sessionId ? ("&session=" + sessionId) : "");
+
+            // Získat hodnotu sessionId a uložit do localStorage
+            var sessionId = $("#session-id").val();
+            if (sessionId) {
+                localStorage.setItem("session-id", sessionId);
+            }
+
+            var url = "https://short-martynne-pavel-1fc5cfc6.koyeb.app/convert_pdf?id_orders=" + ids +
+                "&start_position=" + $("#go-balik-pozice-tisk").val() +
+                (sessionId ? ("&session=" + sessionId) : "");
 
             window.open(url, '_blank');
         }
