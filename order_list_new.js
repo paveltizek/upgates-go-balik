@@ -43,7 +43,7 @@ $(document).ready(function() {
 
     $('#href-go-balik-stitky-pavel').click(function(e) {
         e.preventDefault();
-        var hashs = [];
+        var ids = [];
         var checkedItems = $('input[name^="bulkOperations"]:checked');
 
         // Pokud nejsou žádné checkboxy zaškrtnuté, vybereme všechny
@@ -63,23 +63,23 @@ $(document).ready(function() {
             }
 
             if (ref_cislo && ref_cislo.trim() !== "") {
-                hashs.push(ref_cislo.trim());
+                ids.push(ref_cislo.trim());
             }
         });
 
-        if (hashs.length === 0) {
+        if (ids.length === 0) {
             $('input[name^="editColumns"]:checked').each(function() {
                 var ref_cislo = $(this).parent().next().next().next().find(".table-link").clone();
                 ref_cislo.find('span').remove();
                 ref_cislo = ref_cislo.html();
 
                 if (ref_cislo && ref_cislo.trim() !== "") {
-                    hashs.push(ref_cislo.trim());
+                    ids.push(ref_cislo.trim());
                 }
             });
         }
 
-        if (hashs.length === 0) {
+        if (ids.length === 0) {
             alert("Není vybraná žádná objednávka.");
             return;
         }
@@ -97,7 +97,7 @@ $(document).ready(function() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                hashs: hashs
+                ids: ids
             })
         })
         .then(response => {
