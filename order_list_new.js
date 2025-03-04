@@ -9,7 +9,7 @@
 // ==/UserScript==
 
 /* global $ */
-$(document).ready(function() {
+$(document).ready(function () {
 
     if ($("#snippet--exports").length) {
         element = "#snippet--exports";
@@ -27,7 +27,7 @@ $(document).ready(function() {
         id: "href-go-balik-stitky-pavel"
     }).insertBefore(element);
 
-    $('#href-go-balik-stitky-pavel').click(function(e) {
+    $('#href-go-balik-stitky-pavel').click(function (e) {
         e.preventDefault();
         var ids = [];
         var checkedItems = $('input[name^="bulkOperations"]:checked');
@@ -37,7 +37,7 @@ $(document).ready(function() {
             checkedItems = $('input[name^="bulkOperations"]');
         }
 
-        checkedItems.each(function() {
+        checkedItems.each(function () {
             var ref_cislo = $(this).parent().next().next().next().next().find(".table-link").clone();
             ref_cislo.find('span').remove();
             ref_cislo = ref_cislo.html();
@@ -54,7 +54,7 @@ $(document).ready(function() {
         });
 
         if (ids.length === 0) {
-            $('input[name^="editColumns"]:checked').each(function() {
+            $('input[name^="editColumns"]:checked').each(function () {
                 var ref_cislo = $(this).parent().next().next().next().find(".table-link").clone();
                 ref_cislo.find('span').remove();
                 ref_cislo = ref_cislo.html();
@@ -70,7 +70,7 @@ $(document).ready(function() {
             return;
         }
 
-        // Vytvoření Blob objektu pro stažení PDF
+        // Vytvoření Blob objektu pro zobrazení PDF inline
         fetch('https://monster.tizeklab.cz//pdf/convert_pdf_api?start_position=' + $("#go-balik-pozice-tisk").val(), {
             method: 'POST',
             headers: {
@@ -80,26 +80,22 @@ $(document).ready(function() {
                 ids: ids
             })
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.blob();
-        })
-        .then(blob => {
-            // Vytvoření URL pro stažení
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = 'stitky.pdf';
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Chyba při stahování štítků: ' + error.message);
-        });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                // Vytvoření URL pro zobrazení PDF
+                const url = window.URL.createObjectURL(blob);
+                // Otevření PDF v novém okně (záložce)
+                window.open(url, '_blank');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Chyba při zobrazení štítků: ' + error.message);
+            });
+
     });
 });
