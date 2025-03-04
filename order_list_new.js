@@ -28,19 +28,6 @@ $(document).ready(function() {
         id: "href-go-balik-stitky-pavel"
     }).insertBefore(element);
 
-    var theinput = $('<input>', {
-        type: 'text',
-        name: 'session-id',
-        id: 'session-id',
-        class: 'form-control',
-        style: 'width:250px;display: inline;'
-    }).insertBefore(element);
-
-    // Načíst hodnotu z localStorage, pokud existuje a input je prázdný
-    if (!$("#session-id").val() && localStorage.getItem("session-id")) {
-        $("#session-id").val(localStorage.getItem("session-id"));
-    }
-
     $('#href-go-balik-stitky-pavel').click(function(e) {
         e.preventDefault();
         var ids = [];
@@ -82,12 +69,6 @@ $(document).ready(function() {
         if (ids.length === 0) {
             alert("Není vybraná žádná objednávka.");
             return;
-        }
-
-        // Získat hodnotu sessionId a uložit do localStorage
-        var sessionId = $("#session-id").val();
-        if (sessionId) {
-            localStorage.setItem("session-id", sessionId);
         }
 
         // Vytvoření Blob objektu pro stažení PDF
