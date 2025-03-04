@@ -23,7 +23,7 @@ $(document).ready(function() {
         text: 'Pavel štítky',
         title: 'go balik',
         href: '#',
-        style: 'background: #ffe800;padding: 8px;margin-left: 1em;margin-bottom:9px;font-weight: bold;display: inline-block;',
+        style: 'background: #ffe800;padding: 8px;margin-left: 1em;margin-bottom:9px;font-weight: bold;display: inline-block; color: #000;',
         id: "href-go-balik-stitky-pavel"
     }).insertBefore(element);
 
@@ -71,7 +71,7 @@ $(document).ready(function() {
         }
 
         // Vytvoření Blob objektu pro stažení PDF
-        fetch('http://127.0.0.1:5000/pdf/convert_pdf_api?start_position=' + $("#go-balik-pozice-tisk").val(), {
+        fetch('https://monster.tizeklab.cz//pdf/convert_pdf_api?start_position=' + $("#go-balik-pozice-tisk").val(), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
