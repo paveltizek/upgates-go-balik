@@ -10,7 +10,6 @@
 
 /* global $ */
 $(document).ready(function() {
-    var element = "";
 
     if ($("#snippet--exports").length) {
         element = "#snippet--exports";
@@ -20,7 +19,7 @@ $(document).ready(function() {
         element = "#snippet-ordersGrid-rows";
     }
 
-    var thelinkPavel = $('<a>', {
+    $('<a>', {
         text: 'Pavel štítky',
         title: 'go balik',
         href: '#',
