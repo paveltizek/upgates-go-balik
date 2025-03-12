@@ -71,7 +71,7 @@ $(document).ready(function () {
         }
 
         // Vytvoření Blob objektu pro zobrazení PDF inline
-        fetch('https://monster.tizeklab.cz//pdf/convert_pdf_api?start_position=' + $("#go-balik-pozice-tisk").val(), {
+        fetch('https://monsterapp.tizeklab.cz//pdf/convert_pdf_api?start_position=' + $("#go-balik-pozice-tisk").val(), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
